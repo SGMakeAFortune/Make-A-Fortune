@@ -36,4 +36,4 @@ def get_suggestion(message):
         stream=False,
     )
 
-    return response.choices[0].message.content
+    return f"✨ 温馨提示：\n{response.choices[0].message.content}"
