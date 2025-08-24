@@ -1,3 +1,4 @@
+import logging
 import random
 from datetime import datetime
 from typing import Any, Callable, Optional
@@ -5,6 +6,8 @@ from typing import Any, Callable, Optional
 from models.header_models import HeaderDatabase
 from models.weather_models import WeatherDataLoader
 from wechat.utils import check_condition
+
+logger = logging.getLogger(__name__)
 
 
 class WeatherMessageGenerator:

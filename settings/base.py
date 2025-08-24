@@ -51,3 +51,5 @@ class BaseConfig:
     LOGGER_LEVEL = "DEBUG"
     # DeepSeek API Key
     DEEPSEEK_API_KEY = get_env_config("DEEPSEEK_API_KEY")
+
+    LOG_FILE_NAME = "daily_message.log"

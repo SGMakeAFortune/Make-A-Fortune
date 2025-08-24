@@ -1,4 +1,7 @@
+import logging
 import operator
+
+logger = logging.getLogger(__name__)
 
 
 def parse_condition(condition_str):

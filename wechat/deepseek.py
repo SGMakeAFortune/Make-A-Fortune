@@ -1,6 +1,10 @@
+import logging
+
 from openai import OpenAI
 
 from settings.settings import settings
+
+logger = logging.getLogger(__name__)
 
 
 def get_suggestion(message):

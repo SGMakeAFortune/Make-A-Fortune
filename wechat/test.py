@@ -8,7 +8,7 @@ from api.weather import ApiWeather
 from settings.settings import settings
 from wechat.date_calculation import AnniversaryMessageGenerator
 from wechat.deepseek import get_suggestion
-from wechat.template import get_weather_message, template_concat
+from wechat.template import template_concat, WeatherMessageGenerator
 
 
 def send_daily_message():
@@ -37,7 +37,9 @@ def send_daily_message():
         sentence_response = sentence_api.Response.load(response.json())
 
         # 生成消息
-        weather_message = get_weather_message(weather)
+        weather_message = WeatherMessageGenerator(
+            "../data/header.json", "../data/weather.json"
+        ).generate_random_style_message(weather)
         suggestion_message = get_suggestion(weather_message)
         anniversary_message = AnniversaryMessageGenerator.generate_anniversary_message(
             datetime.strptime(settings.ANNIVERSARY, "%Y-%m-%d")

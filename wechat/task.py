@@ -8,19 +8,10 @@ from apscheduler.triggers.cron import CronTrigger
 from api.daily_sentence import ApiDailySentence
 from api.weather import ApiWeather
 from settings.settings import settings
-from template import get_weather_message, template_concat
+from template import template_concat, WeatherMessageGenerator
 from wechat.date_calculation import AnniversaryMessageGenerator
 from wechat.deepseek import get_suggestion
 
-# 配置日志
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-    handlers=[
-        logging.FileHandler("../logs/daily_message.log", encoding="utf-8"),
-        logging.StreamHandler(),
-    ],
-)
 logger = logging.getLogger(__name__)
 
 
@@ -48,7 +39,9 @@ def send_daily_message():
         sentence_response = sentence_api.Response.load(response.json())
 
         # 生成消息
-        weather_message = get_weather_message(weather)
+        weather_message = WeatherMessageGenerator(
+            "../data/header.json", "../data/weather.json"
+        ).generate_random_style_message(weather)
         suggestion_message = get_suggestion(weather_message)
         anniversary_message = AnniversaryMessageGenerator.generate_anniversary_message(
             datetime.strptime(settings.ANNIVERSARY, "%Y-%m-%d")
@@ -63,7 +56,7 @@ def send_daily_message():
 
         # 发送微信消息
         wx = WeChat()
-        wx.SendMsg(message, who="A-上官发财")
+        wx.SendMsg(message, who="祖宗")
 
         logger.info(f"{datetime.now()} - 消息发送成功！")
 
@@ -85,14 +78,3 @@ def setup_scheduler():
     )
 
     return scheduler
-
-
-if __name__ == "__main__":
-    try:
-        scheduler = setup_scheduler()
-        scheduler.start()
-    except KeyboardInterrupt:
-        logger.info("程序已退出")
-    except Exception as e:
-        logger.error(e, exc_info=True)
-        logger.info(f"程序运行出错: {e}")

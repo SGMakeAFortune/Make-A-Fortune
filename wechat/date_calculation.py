@@ -1,7 +1,10 @@
+import logging
 import random
 from datetime import datetime, timedelta
 from enum import Enum
 from typing import Dict, List, Optional
+
+logger = logging.getLogger(__name__)
 
 
 class AnniversaryStyle(Enum):
