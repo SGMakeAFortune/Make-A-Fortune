@@ -110,7 +110,7 @@ class WeatherMessageGenerator:
 
         for item in humidity.items:
             if check_condition(humidity_value, item.condition):
-                humidity_icon = item.choices
+                humidity_icon = item.get_icon
                 humidity_name = item.get_name
                 break
 
@@ -203,7 +203,7 @@ class WeatherMessageGenerator:
         selected_templates = self.templates.get(style, self.templates["romantic"])
 
         # 构建消息
-        message_lines = [self.header.choice.to_str]
+        message_lines = [f"{self.header.choice.to_str}\n"]
         for template in selected_templates:
             try:
                 line = template.format(**template_data)
