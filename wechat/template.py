@@ -90,14 +90,8 @@ class WeatherMessageGenerator:
 
         for item in season.items:
             if current_month in item.level:
-                season_icon = (
-                    random.choice(item.icons) if hasattr(item, "icons") else "🌍"
-                )
-                season_name = (
-                    random.choice(item.name)
-                    if hasattr(item, "name") and isinstance(item.name, list)
-                    else item.name
-                )
+                season_icon = item.get_icon
+                season_name = item.get_name
                 break
 
         return season_name, season_icon
@@ -124,12 +118,8 @@ class WeatherMessageGenerator:
 
         for item in uv_category.items:
             if uv_index in item.level:
-                uv_icon = random.choice(item.icons) if hasattr(item, "icons") else "🔆"
-                uv_name = (
-                    random.choice(item.name)
-                    if hasattr(item, "name") and isinstance(item.name, list)
-                    else item.name
-                )
+                uv_icon = item.get_icon
+                uv_name = item.get_name
                 break
 
         return uv_name, uv_icon
@@ -142,14 +132,8 @@ class WeatherMessageGenerator:
 
         for item in visibility_category.items:
             if check_condition(visibility, item.condition):
-                visibility_icon = (
-                    random.choice(item.icons) if hasattr(item, "icons") else "👀"
-                )
-                visibility_name = (
-                    random.choice(item.name)
-                    if hasattr(item, "name") and isinstance(item.name, list)
-                    else item.name
-                )
+                visibility_icon = item.get_icon
+                visibility_name = item.get_name
                 break
 
         return visibility_name, visibility_icon
