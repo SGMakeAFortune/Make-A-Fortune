@@ -8,8 +8,9 @@ from typing import Any, Dict, List, Optional
 class WeatherItem:
     """天气项目数据类"""
 
-    name: str
+    name: List[str]
     icons: List[str]
+    suggestions: List[str]
     code: Optional[int] = None
     condition: Optional[str] = None
     level: Optional[List[int]] = None
@@ -20,13 +21,22 @@ class WeatherItem:
         return cls(
             name=data["name"],
             icons=data["icons"],
+            suggestions=data["suggestions"],
             code=data.get("code"),
             condition=data.get("condition"),
             level=data.get("level"),
         )
 
     @property
-    def choices(self) -> str:
+    def get_suggestion(self) -> str:
+        return random.choice(self.suggestions)
+
+    @property
+    def get_name(self) -> str:
+        return random.choice(self.name)
+
+    @property
+    def get_icon(self):
         return random.choice(self.icons)
 
 
@@ -69,10 +79,6 @@ class WeatherDataLoader:
                 if item.code is not None:
                     self._code_index[item.code] = item
 
-                if item.name not in self._name_index:
-                    self._name_index[item.name] = []
-                self._name_index[item.name].append(item)
-
     def load_categories(self, data: Dict[str, Any]) -> None:
         """加载所有天气类别数据"""
         for category_key, category_data in data.get("weather_categories", {}).items():
@@ -100,13 +106,13 @@ class WeatherDataLoader:
         """根据ID查找类别"""
         return self._category_id_index.get(category_id)
 
-    def find_items_by_name(self, name: str) -> List[WeatherItem]:
-        """通过名称查找天气项目"""
-        return self._name_index.get(name, [])
-
-    def get_category(self, category_key: str) -> Optional[WeatherCategory]:
-        """根据类别名称获取类别"""
-        return self._categories.get(category_key)
+    # def find_items_by_name(self, name: str) -> List[WeatherItem]:
+    #     """通过名称查找天气项目"""
+    #     return self._name_index.get(name, [])
+    #
+    # def get_category(self, category_key: str) -> Optional[WeatherCategory]:
+    #     """根据类别名称获取类别"""
+    #     return self._categories.get(category_key)
 
     @property
     def get_all(self) -> Dict[str, WeatherCategory]:
