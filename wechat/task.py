@@ -56,7 +56,7 @@ def send_daily_message():
 
         # 发送微信消息
         wx = WeChat()
-        wx.SendMsg(message, who="祖宗")
+        wx.SendMsg(message, who=settings.USER_NAME)
 
         logger.info(f"{datetime.now()} - 消息发送成功！")
 
@@ -71,7 +71,7 @@ def setup_scheduler():
     # 添加每天7点30执行的任务
     scheduler.add_job(
         send_daily_message,
-        trigger=CronTrigger(hour=7, minute=30),
+        trigger=CronTrigger(hour=settings.HOUR, minute=settings.MINUTE),
         id="daily_morning_message",
         name="每日早安消息",
         replace_existing=True,

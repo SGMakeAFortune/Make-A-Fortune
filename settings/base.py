@@ -43,13 +43,17 @@ class BaseConfig:
     CREDENTIALS_ID = get_env_config("CREDENTIALS_ID")
     PROJECT_ID = get_env_config("PROJECT_ID")
     PRIVATE_KEY_PEM = get_env_config("PRIVATE_KEY_PEM")
-
+    # 纪念日日期
     ANNIVERSARY = get_env_config("ANNIVERSARY")
-    # 日志文件名
-    TASK_FLASK_SERVER = "task-flask-server"
     # 日志级别
     LOGGER_LEVEL = "DEBUG"
     # DeepSeek API Key
     DEEPSEEK_API_KEY = get_env_config("DEEPSEEK_API_KEY")
-
+    # 日志文件名
     LOG_FILE_NAME = "daily_message.log"
+    # 提醒时间
+    HOUR = 7
+    # 分钟数
+    MINUTE = 30
+
+    USER_NAME = "你的用户名"

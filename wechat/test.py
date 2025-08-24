@@ -54,7 +54,7 @@ def send_daily_message():
 
         # 发送微信消息
         wx = WeChat()
-        wx.SendMsg(message, who="A-上官发财")
+        wx.SendMsg(message, who=settings.USER_NAME)
 
         print(f"{datetime.now()} - 消息发送成功！")
 
