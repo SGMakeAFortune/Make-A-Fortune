@@ -8,9 +8,9 @@ from apscheduler.triggers.cron import CronTrigger
 from api.daily_sentence import ApiDailySentence
 from api.weather import ApiWeather
 from settings.settings import settings
-from template import template_concat, WeatherMessageGenerator
 from wechat.date_calculation import AnniversaryMessageGenerator
 from wechat.deepseek import get_suggestion
+from .template import template_concat, WeatherMessageGenerator
 
 logger = logging.getLogger(__name__)
 
@@ -40,7 +40,7 @@ def send_daily_message():
 
         # 生成消息
         weather_message = WeatherMessageGenerator(
-            "../data/header.json", "../data/weather.json"
+            "./data/header.json", "./data/weather.json"
         ).generate_random_style_message(weather)
         suggestion_message = get_suggestion(weather_message)
         anniversary_message = AnniversaryMessageGenerator.generate_anniversary_message(
@@ -78,3 +78,17 @@ def setup_scheduler():
     )
 
     return scheduler
+
+
+def run():
+    try:
+        logger.info("服务启动")
+        logger.info("获取定时任务")
+        scheduler = setup_scheduler()
+        logger.info("定时任务启动")
+        scheduler.start()
+    except KeyboardInterrupt:
+        logger.info("程序已退出")
+    except Exception as e:
+        logger.error(e, exc_info=True)
+        logger.info(f"程序运行出错: {e}")
